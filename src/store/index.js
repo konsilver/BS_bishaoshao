@@ -1,14 +1,13 @@
-import { createStore } from 'vuex'
+import { defineStore } from "pinia";
 
-//暂时用不到
-export default createStore({
-    state: {
-        user: {
-            username: '',
-            ID_number: ''
-        },
+export const useGlobalStore = defineStore("global", {
+  state: () => ({
+    search_key: "",
+    user_id:"",
+  }),
+  actions: {
+    setsearch_key(value) {
+      this.search_key = value;
     },
-    mutations: {},
-    actions: {},
-    modules: {}
-})
+  },
+});
