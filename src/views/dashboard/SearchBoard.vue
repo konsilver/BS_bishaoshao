@@ -7,8 +7,8 @@
         <span class="title">————您便捷的商品比价平台</span>
         <!-- 搜索栏 -->
         <div class="search-bar">
-          <input type="text" placeholder="请输入您感兴趣的商品" />
-          <button>搜一搜</button>
+          <input type="text" placeholder="请输入您感兴趣的商品" v-model="searchtext" />
+          <button @click="sure">搜一搜</button>
         </div>
         <div class="log-out">
           <button @click="logout">
@@ -30,18 +30,18 @@
           <div class="bd" v-show="showCategories" 
           :style="{ top: currentCategoryPosition.top + 'px', left: currentCategoryPosition.left + 'px' }">
             <dl class="col-three">
-              <dd><a>笔记本电脑</a></dd>
-              <dd><a>平板电脑</a></dd>
-              <dd><a>CPU</a></dd>
-              <dd><a>显卡</a></dd>
-              <dd><a>硬盘</a></dd>
-              <dd><a>键盘</a></dd>
-              <dd><a>鼠标</a></dd>
-              <dd><a>主板</a></dd>
-              <dd><a>内存条</a></dd>
-              <dd><a>耳机</a></dd>
-              <dd><a>U盘</a></dd>
-              <dd><a>显示器</a></dd>
+              <dd><a @click="setKeyword('笔记本电脑')">笔记本电脑</a></dd>
+              <dd><a @click="setKeyword('平板电脑')">平板电脑</a></dd>
+              <dd><a @click="setKeyword('CPU')">CPU</a></dd>
+              <dd><a @click="setKeyword('显卡')">显卡</a></dd>
+              <dd><a @click="setKeyword('硬盘')">硬盘</a></dd>
+              <dd><a @click="setKeyword('键盘')">键盘</a></dd>
+              <dd><a @click="setKeyword('鼠标')">鼠标</a></dd>
+              <dd><a @click="setKeyword('主板')">主板</a></dd>
+              <dd><a @click="setKeyword('内存条')">内存条</a></dd>
+              <dd><a @click="setKeyword('耳机')">耳机</a></dd>
+              <dd><a @click="setKeyword('U盘')">U盘</a></dd>
+              <dd><a @click="setKeyword('显示器')">显示器</a></dd>
             </dl>
           </div>
         </li>
@@ -53,17 +53,17 @@
           <div class="bd" v-show="showCategories" 
           :style="{ top: currentCategoryPosition.top + 'px', left: currentCategoryPosition.left + 'px' }">
             <dl class="col-three">
-              <dd><a>电视</a></dd>
-              <dd><a>空调</a></dd>
-              <dd><a>冰箱</a></dd>
-              <dd><a>洗衣机</a></dd>
-              <dd><a>热水器</a></dd>
-              <dd><a>电风扇</a></dd>
-              <dd><a>手机</a></dd>
-              <dd><a>智能手表</a></dd>
-              <dd><a>蓝牙耳机</a></dd>
-              <dd><a>饮水机</a></dd>
-              <dd><a>电风扇</a></dd>
+              <dd><a @click="setKeyword('电视')">电视</a></dd>
+              <dd><a @click="setKeyword('空调')">空调</a></dd>
+              <dd><a @click="setKeyword('冰箱')">冰箱</a></dd>
+              <dd><a @click="setKeyword('洗衣机')">洗衣机</a></dd>
+              <dd><a @click="setKeyword('热水器')">热水器</a></dd>
+              <dd><a @click="setKeyword('电风扇')">电风扇</a></dd>
+              <dd><a @click="setKeyword('手机')">手机</a></dd>
+              <dd><a @click="setKeyword('智能手表')">智能手表</a></dd>
+              <dd><a @click="setKeyword('蓝牙耳机')">蓝牙耳机</a></dd>
+              <dd><a @click="setKeyword('饮水机')">饮水机</a></dd>
+              <dd><a @click="setKeyword('电风扇')">电风扇</a></dd>
             </dl>
           </div>
         </li>
@@ -75,16 +75,16 @@
           <div class="bd" v-show="showCategories" 
           :style="{ top: currentCategoryPosition.top + 'px', left: currentCategoryPosition.left + 'px' }">
             <dl class="col-three">
-              <dd><a>油烟机</a></dd>
-              <dd><a>消毒柜</a></dd>
-              <dd><a>豆浆机</a></dd>
-              <dd><a>电饭煲</a></dd>
-              <dd><a>电烤箱</a></dd>
-              <dd><a>微波炉</a></dd>
-              <dd><a>洗碗机</a></dd>
-              <dd><a>咖啡机</a></dd>
-              <dd><a>面包机</a></dd>
-              <dd><a>电水壶</a></dd>
+              <dd><a @click="setKeyword('油烟机')">油烟机</a></dd>
+              <dd><a @click="setKeyword('消毒柜')">消毒柜</a></dd>
+              <dd><a @click="setKeyword('豆浆机')">豆浆机</a></dd>
+              <dd><a @click="setKeyword('电饭煲')">电饭煲</a></dd>
+              <dd><a @click="setKeyword('电烤箱')">电烤箱</a></dd>
+              <dd><a @click="setKeyword('微波炉')">微波炉</a></dd>
+              <dd><a @click="setKeyword('洗碗机')">洗碗机</a></dd>
+              <dd><a @click="setKeyword('咖啡机')">咖啡机</a></dd>
+              <dd><a @click="setKeyword('面包机')">面包机</a></dd>
+              <dd><a @click="setKeyword('电水壶')">电水壶</a></dd>
             </dl>
           </div>
         </li>
@@ -96,20 +96,20 @@
           <div class="bd" v-show="showCategories" 
           :style="{ top: currentCategoryPosition.top + 'px', left: currentCategoryPosition.left + 'px' }">
             <dl class="col-three">
-              <dd><a>连衣裙</a></dd>
-              <dd><a>T恤</a></dd>
-              <dd><a>衬衫</a></dd>
-              <dd><a>羽绒服</a></dd>
-              <dd><a>毛衣</a></dd>
-              <dd><a>内裤</a></dd>
-              <dd><a>卫衣</a></dd>
-              <dd><a>西装</a></dd>
-              <dd><a>短裤</a></dd>
-              <dd><a>牛仔外套</a></dd>
-              <dd><a>马甲</a></dd>
-              <dd><a>风衣</a></dd>
-              <dd><a>休闲裤</a></dd>
-              <dd><a>丝袜裤袜</a></dd>
+              <dd><a @click="setKeyword('连衣裙')">连衣裙</a></dd>
+              <dd><a @click="setKeyword('T恤')">T恤</a></dd>
+              <dd><a @click="setKeyword('衬衫')">衬衫</a></dd>
+              <dd><a @click="setKeyword('羽绒服')">羽绒服</a></dd>
+              <dd><a @click="setKeyword('毛衣')">毛衣</a></dd>
+              <dd><a @click="setKeyword('内裤')">内裤</a></dd>
+              <dd><a @click="setKeyword('卫衣')">卫衣</a></dd>
+              <dd><a @click="setKeyword('西装')">西装</a></dd>
+              <dd><a @click="setKeyword('短裤')">短裤</a></dd>
+              <dd><a @click="setKeyword('牛仔外套')">牛仔外套</a></dd>
+              <dd><a @click="setKeyword('马甲')">马甲</a></dd>
+              <dd><a @click="setKeyword('风衣')">风衣</a></dd>
+              <dd><a @click="setKeyword('休闲裤')">休闲裤</a></dd>
+              <dd><a @click="setKeyword('丝袜裤袜')">丝袜裤袜</a></dd>
             </dl>
           </div>
         </li>
@@ -121,21 +121,21 @@
           <div class="bd" v-show="showCategories" 
           :style="{ top: currentCategoryPosition.top + 'px', left: currentCategoryPosition.left + 'px' }">
             <dl class="col-three">
-              <dd><a>高跟鞋</a></dd>
-              <dd><a>平底鞋</a></dd>
-              <dd><a>跑步鞋</a></dd>
-              <dd><a>马丁靴</a></dd>
-              <dd><a>休闲皮鞋</a></dd>
-              <dd><a>篮球鞋</a></dd>
-              <dd><a>商务靴</a></dd>
-              <dd><a>正装靴</a></dd>
-              <dd><a>泳衣</a></dd>
-              <dd><a>户外背包</a></dd>
-              <dd><a>钓鱼</a></dd>
-              <dd><a>健身车</a></dd>
-              <dd><a>球类</a></dd>
-              <dd><a>望远镜</a></dd>
-              <dd><a>帐篷</a></dd>
+              <dd><a @click="setKeyword('高跟鞋')">高跟鞋</a></dd>
+              <dd><a @click="setKeyword('平底鞋')">平底鞋</a></dd>
+              <dd><a @click="setKeyword('跑步鞋')">跑步鞋</a></dd>
+              <dd><a @click="setKeyword('马丁靴<')">马丁靴</a></dd>
+              <dd><a @click="setKeyword('休闲皮鞋')">休闲皮鞋</a></dd>
+              <dd><a @click="setKeyword('篮球鞋')">篮球鞋</a></dd>
+              <dd><a @click="setKeyword('商务靴')">商务靴</a></dd>
+              <dd><a @click="setKeyword('正装靴')">正装靴</a></dd>
+              <dd><a @click="setKeyword('泳衣')">泳衣</a></dd>
+              <dd><a @click="setKeyword('户外背包')">户外背包</a></dd>
+              <dd><a @click="setKeyword('钓鱼')">钓鱼</a></dd>
+              <dd><a @click="setKeyword('健身车')">健身车</a></dd>
+              <dd><a @click="setKeyword('球类')">球类</a></dd>
+              <dd><a @click="setKeyword('望远镜')">望远镜</a></dd>
+              <dd><a @click="setKeyword('帐篷')">帐篷</a></dd>
             </dl>
           </div>
         </li>
@@ -147,17 +147,17 @@
           <div class="bd" v-show="showCategories" 
           :style="{ top: currentCategoryPosition.top + 'px', left: currentCategoryPosition.left + 'px' }">
             <dl class="col-three">
-              <dd><a>钱包</a></dd>
-              <dd><a>书画</a></dd>
-              <dd><a>项链/吊坠</a></dd>
-              <dd><a>手饰</a></dd>
-              <dd><a>手镯</a></dd>
-              <dd><a>手提包</a></dd>
-              <dd><a>双肩包</a></dd>
-              <dd><a>行李箱</a></dd>
-              <dd><a>路易威斯</a></dd>
-              <dd><a>圣罗兰</a></dd>
-              <dd><a>香奈儿</a></dd>
+              <dd><a @click="setKeyword('钱包')">钱包</a></dd>
+              <dd><a @click="setKeyword('书画')">书画</a></dd>
+              <dd><a @click="setKeyword('项链/吊坠')">项链/吊坠</a></dd>
+              <dd><a @click="setKeyword('手饰')">手饰</a></dd>
+              <dd><a @click="setKeyword('手镯')">手镯</a></dd>
+              <dd><a @click="setKeyword('手提包')">手提包</a></dd>
+              <dd><a @click="setKeyword('双肩包')">双肩包</a></dd>
+              <dd><a @click="setKeyword('行李箱')">行李箱</a></dd>
+              <dd><a @click="setKeyword('路易威斯')">路易威斯</a></dd>
+              <dd><a @click="setKeyword('圣罗兰')">圣罗兰</a></dd>
+              <dd><a @click="setKeyword('香奈儿')">香奈儿</a></dd>
             </dl>
           </div>
         </li>
@@ -169,16 +169,16 @@
           <div class="bd" v-show="showCategories" 
           :style="{ top: currentCategoryPosition.top + 'px', left: currentCategoryPosition.left + 'px' }">
             <dl class="col-three">
-              <dd><a>牛奶</a></dd>
-              <dd><a>茶</a></dd>
-              <dd><a>国产水果</a></dd>
-              <dd><a>白酒</a></dd>
-              <dd><a>葡挞酒</a></dd>
-              <dd><a>药品</a></dd>
-              <dd><a>葱姜类</a></dd>
-              <dd><a>行李箱</a></dd>
-              <dd><a>奶粉</a></dd>
-              <dd><a>生日蛋糕</a></dd>
+              <dd><a @click="setKeyword('牛奶')">牛奶</a></dd>
+              <dd><a @click="setKeyword('茶')">茶</a></dd>
+              <dd><a @click="setKeyword('国产水果')">国产水果</a></dd>
+              <dd><a @click="setKeyword('白酒')">白酒</a></dd>
+              <dd><a @click="setKeyword('葡挞酒')">葡挞酒</a></dd>
+              <dd><a @click="setKeyword('药品')">药品</a></dd>
+              <dd><a @click="setKeyword('葱姜类')">葱姜类</a></dd>
+              <dd><a @click="setKeyword('行李箱')">行李箱</a></dd>
+              <dd><a @click="setKeyword('奶粉')">奶粉</a></dd>
+              <dd><a @click="setKeyword('生日蛋糕')">生日蛋糕</a></dd>
             </dl>
           </div>
         </li>
@@ -190,16 +190,15 @@
           <div class="bd" v-show="showCategories" 
           :style="{ top: currentCategoryPosition.top + 'px', left: currentCategoryPosition.left + 'px' }">
             <dl class="col-three">
-              <dd><a>孕妇装</a></dd>
-              <dd><a>童衣</a></dd>
-              <dd><a>安全座椅</a></dd>
-              <dd><a>婴儿推车</a></dd>
-              <dd><a>益智积木</a></dd>
-              <dd><a>猫粮狗粮</a></dd>
-              <dd><a>宠物玩具</a></dd>
-              <dd><a>童装</a></dd>
-              <dd><a>婴儿礼盒</a></dd>
-              <dd><a>妈咪装</a></dd>
+              <dd><a @click="setKeyword('孕妇装')">孕妇装</a></dd>
+              <dd><a @click="setKeyword('安全座椅')">安全座椅</a></dd>
+              <dd><a @click="setKeyword('婴儿推车')">婴儿推车</a></dd>
+              <dd><a @click="setKeyword('益智积木')">益智积木</a></dd>
+              <dd><a @click="setKeyword('猫粮狗粮')">猫粮狗粮</a></dd>
+              <dd><a @click="setKeyword('宠物玩具')">宠物玩具</a></dd>
+              <dd><a @click="setKeyword('童装')">童装</a></dd>
+              <dd><a @click="setKeyword('婴儿礼盒')">婴儿礼盒</a></dd>
+              <dd><a @click="setKeyword('妈咪装')">妈咪装</a></dd>
             </dl>
           </div>
         </li>
@@ -211,17 +210,17 @@
           <div class="bd" v-show="showCategories" 
           :style="{ top: currentCategoryPosition.top + 'px', left: currentCategoryPosition.left + 'px' }">
             <dl class="col-three">
-              <dd><a>美甲</a></dd>
-              <dd><a>香水</a></dd>
-              <dd><a>洗发水</a></dd>
-              <dd><a>牙膏</a></dd>
-              <dd><a>香皂</a></dd>
-              <dd><a>沐浴露</a></dd>
-              <dd><a>纸巾</a></dd>
-              <dd><a>洗洁精</a></dd>
-              <dd><a>香薰</a></dd>
-              <dd><a>驱蚊器</a></dd>
-              <dd><a>洗手液</a></dd>
+              <dd><a @click="setKeyword('美甲')">美甲</a></dd>
+              <dd><a @click="setKeyword('香水')">香水</a></dd>
+              <dd><a @click="setKeyword('洗发水')">洗发水</a></dd>
+              <dd><a @click="setKeyword('牙膏')">牙膏</a></dd>
+              <dd><a @click="setKeyword('香皂')">香皂</a></dd>
+              <dd><a @click="setKeyword('沐浴露')">沐浴露</a></dd>
+              <dd><a @click="setKeyword('纸巾')">纸巾</a></dd>
+              <dd><a @click="setKeyword('洗洁精')">洗洁精</a></dd>
+              <dd><a @click="setKeyword('香薰')">香薰</a></dd>
+              <dd><a @click="setKeyword('驱蚊器')">驱蚊器</a></dd>
+              <dd><a @click="setKeyword('洗手液')">洗手液</a></dd>
             </dl>
           </div>
         </li>
@@ -233,16 +232,16 @@
           <div class="bd" v-show="showCategories" 
           :style="{ top: currentCategoryPosition.top + 'px', left: currentCategoryPosition.left + 'px' }">
             <dl class="col-three">
-              <dd><a>童书绘本</a></dd>
-              <dd><a>中小学教辅</a></dd>
-              <dd><a>会计</a></dd>
-              <dd><a>考研</a></dd>
-              <dd><a>钢琴</a></dd>
-              <dd><a>吉他</a></dd>
-              <dd><a>鲜花绿植</a></dd>
-              <dd><a>护肤</a></dd>
-              <dd><a>文学作品</a></dd>
-              <dd><a>尤克里里</a></dd>
+              <dd><a @click="setKeyword('童书绘本')">童书绘本</a></dd>
+              <dd><a @click="setKeyword('中小学教辅')">中小学教辅</a></dd>
+              <dd><a @click="setKeyword('会计')">会计</a></dd>
+              <dd><a @click="setKeyword('考研')">考研</a></dd>
+              <dd><a @click="setKeyword('钢琴')">钢琴</a></dd>
+              <dd><a @click="setKeyword('吉他')">吉他</a></dd>
+              <dd><a @click="setKeyword('鲜花绿植')">鲜花绿植</a></dd>
+              <dd><a @click="setKeyword('护肤')">护肤</a></dd>
+              <dd><a @click="setKeyword('文学作品')">文学作品</a></dd>
+              <dd><a @click="setKeyword('尤克里里')">尤克里里</a></dd>
             </dl>
           </div>
         </li>
@@ -310,12 +309,21 @@
 <script>
 import { ref } from 'vue';
 import { ShoppingCart,Monitor,Cpu,House,User,ShoppingBag,Coin,Food,Present,MagicStick,Collection } from '@element-plus/icons-vue';
-import router from "../../router";
+import {useRouter} from "vue-router";
+
+
+import SEARCHAPI from '../../api/search';
+import { ElMessage } from "element-plus";
+
 
 export default {
   setup() {
+    const router = useRouter();
     const showCategories = ref(false);
     const currentCategoryPosition = ref({ top: 0, left: 0 });
+    const keyword=ref('');
+    const searchtext=ref('');
+    const searchResults = ref([]);
 
     const showSubCategories = (event) => {
       const hdElement = event.target.closest('.hd');
@@ -330,8 +338,41 @@ export default {
     };
 
     const hideSubCategories = () => {
-      console.log('hide');
       showCategories.value = false;
+    };
+
+    const search = () => {
+      SEARCHAPI.search({"keyword":keyword.value})
+      .then(response =>{
+        if (response.code === "00000") {
+          searchResults.value = response.data.map(item => ({
+            id: item.id,
+            name: item.name,
+            date: item.date,
+            price: item.price,
+            source: item.source,
+          }))
+          router.push({
+            name: 'SearchResults', 
+            query: { results: searchResults.value },
+          });
+        } else {
+          ElMessage.error(response.msg);
+          return;
+          }
+        })
+        .catch(error => {
+          console.log(error);
+        })
+    };
+    const setKeyword = (word) =>{
+      keyword.value = word; // 将点击的词条赋值给变量 keyword
+      search();
+    };
+    
+    const sure = () => {
+      keyword.value=searchtext.value;
+      search();
     };
 
     // 商品分组索引
@@ -389,7 +430,19 @@ export default {
 
 
     const logout = () => {
-      router.push("/")
+      SEARCHAPI.logout()
+      .then(response =>{
+          if (response.code === "00000") {
+              ElMessage.success("您已退出登录");
+              router.push("/");
+          } else {
+              ElMessage.error(response.msg);
+              return;
+          }
+      })
+      .catch(error => {
+        console.log(error);
+      })
     };
 
     return {
@@ -417,6 +470,9 @@ export default {
       MagicStick,
       Collection,
       logout,
+      setKeyword,
+      searchtext,
+      sure,
     };
   },
 };

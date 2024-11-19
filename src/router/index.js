@@ -29,6 +29,12 @@ const routes = [
         name: 'forget',
         component: () => import('@/views/begin/ForgetPage.vue'),
     },
+    {
+        path: "/bishaoshao/searchresults",
+        name: 'SearchResults',
+        component: () => import('@/views/dashboard/ResultPage.vue'),
+    },
+    
 ];
 
 // 创建并配置路由
