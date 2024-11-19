@@ -122,4 +122,11 @@ public class UserLoginController {
 
         return Result.success();
     }
+
+    @DeleteMapping("/out") 
+    public Result<?> logout(HttpServletRequest request) {
+        String token = jwtTokenProvider.getTokenFromRequest(request);
+        onlineUserService.logout(token); 
+        return Result.success();
+    }
 }

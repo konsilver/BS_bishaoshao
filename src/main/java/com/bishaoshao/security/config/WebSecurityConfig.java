@@ -43,7 +43,11 @@ public class WebSecurityConfig {
             .authorizeHttpRequests(authorizationRegistry -> authorizationRegistry
                 .requestMatchers(HttpMethod.GET, "/", "/*.html").permitAll()
                 //登录，注册，图片验证码，邮箱验证码
-                .requestMatchers("/api/login/*").permitAll()
+                .requestMatchers("/api/login/in").permitAll()
+                .requestMatchers("/api/login/mail").permitAll()
+                .requestMatchers("/api/login/register").permitAll()
+                .requestMatchers("/api/login/forget").permitAll()
+                .requestMatchers("/api/login/captcha").permitAll()
                 .requestMatchers("/fc/data_operator/start/login", "/fc/data_opertaor/start/register").permitAll()
                 // 跨域的一次 OPTION 预检
                 .requestMatchers(HttpMethod.OPTIONS).permitAll()
