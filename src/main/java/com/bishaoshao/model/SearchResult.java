@@ -6,7 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
+import java.time.LocalDate;
 
 @Schema(description = "搜索结果结构")
 @Builder
@@ -23,11 +23,14 @@ public class SearchResult {
     private String name;
 
     @Schema(description = "商品信息日期")
-    private String Date;
+    private LocalDate date;
 
     @Schema(description = "商品价格")
     private double price;
     
     @Schema(description = "商品所属商城")
     private String source;
+
+    @Schema(description = "商品图片链接")
+    private String image;
 }
