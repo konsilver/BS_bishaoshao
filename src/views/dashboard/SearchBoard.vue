@@ -323,7 +323,6 @@ export default {
     const currentCategoryPosition = ref({ top: 0, left: 0 });
     const keyword=ref('');
     const searchtext=ref('');
-    const searchResults = ref([]);
 
     const showSubCategories = (event) => {
       const hdElement = event.target.closest('.hd');
@@ -342,37 +341,22 @@ export default {
     };
 
     const search = () => {
-      SEARCHAPI.search({"keyword":keyword.value})
-      .then(response =>{
-        if (response.code === "00000") {
-          searchResults.value = response.data.map(item => ({
-            id: item.id,
-            name: item.name,
-            date: item.date,
-            price: item.price,
-            source: item.source,
-          }))
-          router.push({
-            name: 'SearchResults', 
-            query: { results: searchResults.value },
-          });
-        } else {
-          ElMessage.error(response.msg);
-          return;
-          }
-        })
-        .catch(error => {
-          console.log(error);
-        })
+      router.push({
+        name: 'SearchResults', 
+        query: { results: keyword.value },
+      });
     };
+
     const setKeyword = (word) =>{
       keyword.value = word; // 将点击的词条赋值给变量 keyword
       search();
     };
     
     const sure = () => {
-      keyword.value=searchtext.value;
-      search();
+      if(searchtext.value!=''){
+        keyword.value=searchtext.value;
+        search();
+      }
     };
 
     // 商品分组索引
