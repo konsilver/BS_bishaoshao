@@ -30,9 +30,29 @@ const SEARCHAPI = {
             const response = await axiosInstance.post(`${SEARCH_BASE_URL}/lookfor`,data); 
             return response.data; 
         } catch (error) {
-            console.error('Logout failed:', error.response?.data || error.message);
+            console.error('Search failed:', error.response?.data || error.message);
             throw error;
         }
+    },
+
+    async getdetail(id) { // 添加 async 修饰
+      try {
+          const response = await axiosInstance.post(`${SEARCH_BASE_URL}/lookin`,id); 
+          return response.data; 
+      } catch (error) {
+          console.error('GetDetails failed:', error.response?.data || error.message);
+          throw error;
+      }
+    },
+
+    async gethistory(id) { // 添加 async 修饰
+      try {
+          const response = await axiosInstance.post(`${SEARCH_BASE_URL}/lookback`,id); 
+          return response.data; 
+      } catch (error) {
+          console.error('GetDetails failed:', error.response?.data || error.message);
+          throw error;
+      }
     }
 };
 

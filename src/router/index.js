@@ -34,6 +34,11 @@ const routes = [
         name: 'SearchResults',
         component: () => import('@/views/dashboard/ResultPage.vue'),
     },
+    {
+        path: "/bishaoshao/details",
+        name: 'Details',
+        component: () => import('@/views/dashboard/DetailPage.vue'),
+    },
     
 ];
 

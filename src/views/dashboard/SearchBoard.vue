@@ -260,6 +260,7 @@
                 class="product-card"
                 v-for="(product, index) in groups[currentGroup]"
                 :key="'hot-' + index"
+                @click="setid(product.id)"
               >
                 <div class="image-placeholder">
                   <img :src="product.image" :alt="product.name" />
@@ -276,42 +277,16 @@
         <button class="carousel-btn right-btn" @click="nextGroup">›</button>
       </div>
 
-      <div class="order carousel-container">
-        <!-- 火爆降价商品 -->
-        <div class="display">
-          <h4>您感兴趣的...</h4>
-          <transition name="flip" mode="out-in">
-            <div class="product-list" :key="currentGroup_guess">
-              <div
-                class="product-card"
-                v-for="(product, index) in groups_guess[currentGroup_guess]"
-                :key="'hot-' + index"
-              >
-                <div class="image-placeholder">
-                  <img :src="product.image" :alt="product.name" />
-                </div>
-                <p class="product-name">{{ product.name }}</p>
-                <p class="product-price">{{ product.price }}</p>
-              </div>
-            </div>
-          </transition>
-        </div>
-                <!-- 左右切换按钮 -->
-        <button class="carousel-btn left-btn" @click="prevGroup_guess">‹</button>
-        <button class="carousel-btn right-btn" @click="nextGroup_guess">›</button>
-      </div>
-
     </div>
   </div>
 </template>
 
 
 <script>
-import { ref } from 'vue';
+import { ref ,onMounted} from 'vue';
 import { ShoppingCart,Monitor,Cpu,House,User,ShoppingBag,Coin,Food,Present,MagicStick,Collection } from '@element-plus/icons-vue';
 import {useRouter} from "vue-router";
-
-
+import SUBSCRIBEAPI from '../../api/subscribe';
 import SEARCHAPI from '../../api/search';
 import { ElMessage } from "element-plus";
 
@@ -323,6 +298,8 @@ export default {
     const currentCategoryPosition = ref({ top: 0, left: 0 });
     const keyword=ref('');
     const searchtext=ref('');
+    const groups = ref([[], [], []]); // 用于存放商品分组，每组最多4个商品
+    const selectid = ref(0); //被点击的商品卡片的对应商品id，用于路由跳转
 
     const showSubCategories = (event) => {
       const hdElement = event.target.closest('.hd');
@@ -361,20 +338,43 @@ export default {
 
     // 商品分组索引
     const currentGroup = ref(0);
-    const groups = ref([
-      [
-        { name: '商品 1', price: '¥99.99', image: 'https://img14.360buyimg.com/pop/jfs/t1/180221/38/52140/148950/6738afa6F567ae07f/371869cfa5f0c449.jpg' },
-        { name: '商品 2', price: '¥89.99', image: 'https://img14.360buyimg.com/pop/jfs/t1/180221/38/52140/148950/6738afa6F567ae07f/371869cfa5f0c449.jpg' },
-        { name: '商品 3', price: '¥79.99', image: 'https://img14.360buyimg.com/pop/jfs/t1/180221/38/52140/148950/6738afa6F567ae07f/371869cfa5f0c449.jpg' },
-        { name: '商品 4', price: '¥69.99', image: 'https://img14.360buyimg.com/pop/jfs/t1/180221/38/52140/148950/6738afa6F567ae07f/371869cfa5f0c449.jpg' },
-      ],
-      [
-        { name: '商品 5', price: '¥59.99', image: 'https://img14.360buyimg.com/pop/jfs/t1/180221/38/52140/148950/6738afa6F567ae07f/371869cfa5f0c449.jpg' },
-        { name: '商品 6', price: '¥49.99', image: 'https://img14.360buyimg.com/pop/jfs/t1/180221/38/52140/148950/6738afa6F567ae07f/371869cfa5f0c449.jpg' },
-        { name: '商品 7', price: '¥39.99', image: 'https://img14.360buyimg.com/pop/jfs/t1/180221/38/52140/148950/6738afa6F567ae07f/371869cfa5f0c449.jpg' },
-        { name: '商品 8', price: '¥29.99', image: 'https://img14.360buyimg.com/pop/jfs/t1/180221/38/52140/148950/6738afa6F567ae07f/371869cfa5f0c449.jpg' },
-      ],
-    ]);
+
+
+    const waitornon = ref('加载中...');  // 初始提示
+
+    onMounted(() => {
+      SUBSCRIBEAPI.getany()
+      .then(response => {
+        if (response.code === "00000") {
+          const items = response.data;  // 假设返回的数据是 items 数组
+
+          // 清空现有的分组，确保每次数据刷新时分组是干净的
+          groups.value = [[], [], []];
+
+          // 将商品数据分配到4个组中，每组最多4个商品
+          let groupIndex = 0;
+          items.forEach((item, index) => {
+            groups.value[groupIndex].push({
+              id: item.id,
+              name: item.name,
+              price: `¥${item.price.toFixed(2)}`, // 格式化价格
+              image: item.image,
+            });
+
+            // 每4个商品换到下一组
+            if ((index + 1) % 4 === 0 && groupIndex < 2) {  // 确保不超出3组
+              groupIndex++;
+            }
+          });
+        } else {
+          waitornon.value = '暂无相关商品，试着搜搜别的吧';
+        }
+      })
+      .catch(error => {
+        console.log(error);
+        waitornon.value = '加载失败，请稍后再试';
+      });
+    });
 
     const prevGroup = () => {
       currentGroup.value = (currentGroup.value - 1 + groups.value.length) % groups.value.length;
@@ -384,33 +384,16 @@ export default {
       currentGroup.value = (currentGroup.value + 1) % groups.value.length;
     };
 
-    const currentGroup_guess = ref(0);
-    const groups_guess = ref([
-      [
-        { name: '商品 1', price: '¥99.99', image: 'https://img14.360buyimg.com/pop/jfs/t1/180221/38/52140/148950/6738afa6F567ae07f/371869cfa5f0c449.jpg' },
-        { name: '商品 2', price: '¥89.99', image: 'https://img14.360buyimg.com/pop/jfs/t1/180221/38/52140/148950/6738afa6F567ae07f/371869cfa5f0c449.jpg' },
-        { name: '商品 3', price: '¥79.99', image: 'https://img14.360buyimg.com/pop/jfs/t1/180221/38/52140/148950/6738afa6F567ae07f/371869cfa5f0c449.jpg' },
-        { name: '商品 4', price: '¥69.99', image: 'https://img14.360buyimg.com/pop/jfs/t1/180221/38/52140/148950/6738afa6F567ae07f/371869cfa5f0c449.jpg' },
-        { name: '商品 5', price: '¥69.99', image: 'https://img14.360buyimg.com/pop/jfs/t1/180221/38/52140/148950/6738afa6F567ae07f/371869cfa5f0c449.jpg' },
-        { name: '商品 6', price: '¥69.99', image: 'https://img14.360buyimg.com/pop/jfs/t1/180221/38/52140/148950/6738afa6F567ae07f/371869cfa5f0c449.jpg' },
-      ],
-      [
-        { name: '商品 7', price: '¥59.99', image: 'https://img14.360buyimg.com/pop/jfs/t1/180221/38/52140/148950/6738afa6F567ae07f/371869cfa5f0c449.jpg' },
-        { name: '商品 8', price: '¥49.99', image: 'https://img14.360buyimg.com/pop/jfs/t1/180221/38/52140/148950/6738afa6F567ae07f/371869cfa5f0c449.jpg' },
-        { name: '商品 9', price: '¥39.99', image: 'https://img14.360buyimg.com/pop/jfs/t1/180221/38/52140/148950/6738afa6F567ae07f/371869cfa5f0c449.jpg' },
-        { name: '商品 10', price: '¥29.99', image: 'https://img14.360buyimg.com/pop/jfs/t1/180221/38/52140/148950/6738afa6F567ae07f/371869cfa5f0c449.jpg' },
-        { name: '商品 11', price: '¥69.99', image: 'https://img14.360buyimg.com/pop/jfs/t1/180221/38/52140/148950/6738afa6F567ae07f/371869cfa5f0c449.jpg' },
-        { name: '商品 12', price: '¥69.99', image: 'https://img14.360buyimg.com/pop/jfs/t1/180221/38/52140/148950/6738afa6F567ae07f/371869cfa5f0c449.jpg' },
-      ],
-    ]);
-
-    const prevGroup_guess = () => {
-      currentGroup_guess.value = (currentGroup_guess.value - 1 + groups_guess.value.length) % groups_guess.value.length;
-    };
-
-    const nextGroup_guess = () => {
-      currentGroup_guess.value = (currentGroup_guess.value + 1) % groups_guess.value.length;
-    };
+    const setid = (id) =>{
+      selectid.value=id;
+      lookin();
+    }
+    const lookin = () =>{
+    router.push({
+      name : 'Details',
+      query: { id: selectid.value},
+    })
+  }
 
 
     const logout = () => {
@@ -438,10 +421,6 @@ export default {
       groups,
       prevGroup,
       nextGroup,
-      currentGroup_guess,
-      groups_guess,
-      prevGroup_guess,
-      nextGroup_guess,
       ShoppingCart,
       Monitor,
       Cpu,
@@ -457,15 +436,13 @@ export default {
       setKeyword,
       searchtext,
       sure,
+      lookin,
+      setid,
     };
   },
 };
 
 </script>
-
-
-
-
 
 
 <style lang="scss" scoped>
@@ -474,7 +451,7 @@ export default {
   flex-direction: column;
   align-items: center;
   width: 100%;
-  height: 170vh;
+  height: 140vh;
   background: url("@/assets/images/login-background-dark.jpg") no-repeat center center;
   background-size: cover;
 
@@ -731,9 +708,11 @@ export default {
 
 /* 商品名样式 */
 .product-name {
-  font-size: 20px;
+  font-size: 15px;
   color: #555;
-  margin-bottom: 40px;
+  margin-bottom: 50px;
+  overflow: hidden; /* 超出部分隐藏 */
+  text-overflow: ellipsis; /* 使用省略号替代溢出部分 */
 }
 
 /* 商品价格样式 */
@@ -741,6 +720,7 @@ export default {
   font-size: 18px;
   color: #e60012; /* 红色价格 */
   font-weight: bold;
+  margin-bottom: 35px;
 }
 
 /* 按钮基础样式 */

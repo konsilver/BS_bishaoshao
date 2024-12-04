@@ -48,10 +48,10 @@
         <div class="filter-price">
           <div class="range">商品价格区间</div>
             <div class="price-range">
-              <input type="number" placeholder="最低价" v-model.number="minPrice" />
+              <input type="number" placeholder="最低价" v-model.number="minPrice_unsure" />
               <span class="separator">~</span>
-              <input type="number" placeholder="最高价" v-model.number="maxPrice" />
-              <button @click="applyFilters">确认</button>
+              <input type="number" placeholder="最高价" v-model.number="maxPrice_unsure" />
+              <button @click="changeprice">确认</button>
             </div>
         </div>
 
@@ -60,7 +60,7 @@
 
       <!-- 搜索结果展示 -->
         <div v-if="paginatedFilteredResults.length" class="search-results">
-          <div v-for="result in paginatedFilteredResults" :key="result.id" class="result-item">
+          <div v-for="result in paginatedFilteredResults" :key="result.id" class="result-item"  @click="setid(result.id)">
             <img v-if="result.image" :src="result.image" alt="商品图片" class="result-image" />
             <div v-else class="no-image">暂无图片</div>
               <h3 class="result-name">{{ result.name }}</h3>
@@ -69,7 +69,8 @@
               <p class="result-source"><strong>来源:</strong> {{ result.source }}</p>
           </div>
         </div>
-        <p v-else>暂无搜索结果</p>
+        <p v-else class="non-result">{{waitornon.value}}</p>
+
          <!-- 分页 -->
         <div v-if="paginatedFilteredResults.length" class="pagination">
         <button @click="prevPage" :disabled="currentPage === 1">上一页</button>
@@ -85,7 +86,7 @@ import { useRoute } from "vue-router";
 import { ref,onMounted,computed } from 'vue';
 import router from "../../router";
 import SEARCHAPI from '../../api/search';
-import { ElMessage } from "element-plus";
+//import { ElMessage } from "element-plus";
 
 export default {
 setup() {
@@ -98,6 +99,10 @@ setup() {
   const recentFirst = ref(false); // 是否按时间排序
   const minPrice = ref(0); // 最低价格
   const maxPrice = ref(9999999); // 最高价格
+  const minPrice_unsure=ref(0);
+  const maxPrice_unsure=ref(0);
+  const selectid = ref(0); //被点击的商品卡片的对应商品id，用于路由跳转
+  const waitornon =ref('商品查询中，请稍等')
 
   let keyword = route.query.results;
 
@@ -112,7 +117,7 @@ setup() {
       router.push("/bishaoshao/user/searchboard");
   };
 
-  //每次刷新页面进行搜索
+  //每次刷新页面重新查询商品详情
   onMounted(() => {
     SEARCHAPI.search({"keyword":keyword})
     .then(response =>{
@@ -125,23 +130,44 @@ setup() {
           source: item.source,
           image: item.image,
         }))
-      } else {
-        ElMessage.error(response.msg);
-        return;
-        }
+      }
+      else {
+        waitornon.value='暂无相关商品，试着搜搜别的吧';
+      }
       })
       .catch(error => {
         console.log(error);
       })
+    
   });
 
   const search = () => {
     router.push({
-      name: 'SearchResults', 
-      query: { results: keyword},
+      name: 'SearchResults',
+      query: { results: keyword },
+    }).then(() => {
+      // 跳转后刷新页面
+      window.location.reload();
     });
   };
 
+
+  const setid = (id) =>{
+    selectid.value=id;
+    lookin();
+  }
+  const lookin = () =>{
+    router.push({
+      name : 'Details',
+      query: { id: selectid.value},
+    })
+  }
+
+  const changeprice = () =>{
+    maxPrice.value=maxPrice_unsure.value;
+    minPrice.value=minPrice_unsure.value;
+    applyFilters();
+  }
   const filteredResults = computed(() => {
       let results = [...searchResults.value];
 
@@ -209,6 +235,11 @@ setup() {
     totalFilteredPages,
     applyFilters,
     paginatedFilteredResults,
+    setid,
+    minPrice_unsure,
+    maxPrice_unsure,
+    changeprice,
+    waitornon
   };
 },
 };
@@ -339,7 +370,10 @@ setup() {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   box-sizing: border-box; /* 包括边框和内边距 */
   background-color: rgb(61, 24, 31);
+  cursor: pointer; /* 鼠标悬浮时显示为手形 */
+  transition: transform 0.2s; /* 增加过渡效果 */
 }
+
 
 
   .result-image {
@@ -524,6 +558,13 @@ setup() {
   }
 }
 
+.non-result{
+  font-size: 50px; /* 增大字体 */
+  color: #e97a29;
+  margin-top: 30%;
+  margin-left: 20%;
+
+}
 
 }
 
