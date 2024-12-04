@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import java.util.Map;
+import java.math.BigDecimal;
 import java.util.HashMap;
 import org.springframework.stereotype.Service;
 /**
@@ -29,12 +30,11 @@ public class MailService {
     public String sendVerificationCode(String email) {
         // 生成验证码
         String code = generateVerificationCode();
-        System.out.println(email+"\n");
+
         // 发送邮件
         sendMail(email, "邮箱验证码", "您注册比少少账号的验证码是: " + code);
 
         return code; // 返回验证码
-        //return "hello";
     }
 
     /**
@@ -53,7 +53,7 @@ public class MailService {
         try {
             SimpleMailMessage message = new SimpleMailMessage();
             message.setFrom(mailProperties.getFrom());
-            System.out.println(mailProperties.getFrom());
+            //System.out.println(mailProperties.getFrom());
             message.setTo(to);
             message.setSubject(subject);
             message.setText(text);
@@ -64,5 +64,9 @@ public class MailService {
         }
     }
 
+    public void remind(String mail,String msg){
+        sendMail(mail, "降价提醒", msg);
+        //System.out.println(msg);
+    }
 }
 

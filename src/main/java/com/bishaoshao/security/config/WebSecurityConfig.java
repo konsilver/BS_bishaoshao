@@ -48,6 +48,7 @@ public class WebSecurityConfig {
                 .requestMatchers("/api/login/register").permitAll()
                 .requestMatchers("/api/login/forget").permitAll()
                 .requestMatchers("/api/login/captcha").permitAll()
+                .requestMatchers("/api/subscribe/remind").permitAll()
                 .requestMatchers("/fc/data_operator/start/login", "/fc/data_opertaor/start/register").permitAll()
                 // 跨域的一次 OPTION 预检
                 .requestMatchers(HttpMethod.OPTIONS).permitAll()

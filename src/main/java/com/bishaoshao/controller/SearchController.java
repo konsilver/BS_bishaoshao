@@ -29,5 +29,19 @@ public class SearchController {
         String keyword = params.get("keyword");  // 从请求体中获取 keyword 参数
         return searchService.search(keyword);
     }
+
+    @Operation(summary = "访问商品详情")
+    @PostMapping("/lookin")
+    public Result<?> getinfo(@RequestBody Map<String, String> params){
+        long id = Long.parseLong(params.get("id"));
+        return searchService.getDetailsById(id);
+    }
+
+    @Operation(summary = "查询历史价格")
+    @PostMapping("/lookback")
+    public Result<?> gethistory(@RequestBody Map<String, String> params){
+        long id = Long.parseLong(params.get("id"));
+        return searchService.getHistoryById(id);
+    }
 }
 

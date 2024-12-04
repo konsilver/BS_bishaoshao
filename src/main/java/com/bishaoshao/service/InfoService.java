@@ -27,9 +27,6 @@ public class InfoService {
 
     public Result<Void> registerNewUser(User user) {
         try {
-            System.out.println(user.getEmail());
-            System.out.println(user.getUsername());
-            System.out.println(user.getPassword());
             InfoMapper.insert(user);
             return Result.success(); 
         } catch(Exception e) {
@@ -87,7 +84,6 @@ public class InfoService {
 
     public Result<User> getUserByUsername(String username) {
 
-        System.out.println(username);
         try {
             User res = InfoMapper.selectOne(new QueryWrapper<User>().eq("username", username));
             if (Objects.isNull(res))

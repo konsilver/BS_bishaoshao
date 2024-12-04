@@ -30,6 +30,9 @@ spring:
       # 邮件发送者
     from: "2139752165@qq.com"  # 发件人邮箱
 
+openai:
+  api:
+    key:
 
 # jwt 相关设置
 jwt:
