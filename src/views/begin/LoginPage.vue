@@ -245,6 +245,7 @@ export default {
           if (valid) {
             // 登录验证逻辑
             const encrypted = CryptoJS.SHA256(loginData.value.password).toString();
+            console.log(encrypted);
             LOGINAPI.login({
               "username": loginData.value.username,
               "password": encrypted
@@ -301,7 +302,6 @@ export default {
 
 
 
-
 <style lang="scss" scoped>
 .login {
   display: flex;
@@ -314,129 +314,149 @@ export default {
   background-size: cover; /* 背景图片完全平铺 */
 
   .login-header {
-    position: absolute;
-    top: 20px;
-    left: 20px; /* 将 header 固定在左上角 */
-    display: flex;
-    flex-direction: column; /* 垂直布局 */
-    align-items: flex-start; /* 左对齐 */
-    gap: 15px;
+  position: absolute;
+  top: 2%; /* 改为相对视口高度，确保在不同屏幕上有良好的间距 */
+  left: 2%; /* 改为相对视口宽度，确保与屏幕边缘有一定间距 */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem; /* 使用 rem 单位，确保布局的相对性 */
+
+  .logo {
+    width: 10vw; /* 使用 vw 单位，根据视口宽度调整 logo 的大小 */
+    height: auto;
+  }
+
+  .title {
+    font-size: 1.5rem; /* 使用 rem 单位，使字体大小与根字体大小挂钩 */
+    font-weight: bold;
+    color: #E97A29;
+    margin-top: 2rem; /* 使用 rem 单位，确保标题与上方的间距适中 */
+    font-family: "KaiTi", "楷体", "Microsoft YaHei", "微软雅黑", "Heiti SC", "黑体", "Arial", sans-serif;
+  }
+  }
+
+/* 为手机端添加适配样式 */
+@media (max-width: 768px) {
+  .login-header {
+    top: 4%; /* 缩小顶部间距，使其适配小屏幕 */
+    left: 5%; /* 缩小左边距 */
+    align-items: center; /* 在手机上居中显示内容 */
 
     .logo {
-      width: 200px; /* 放大 logo 大小 */
-      height: auto;
+      width: 30vw; /* 根据手机屏幕宽度调整 logo 大小 */
     }
 
     .title {
-      font-size: 40px; /* 调整标题字体稍大 */
-      font-weight: bold;
-      color: #E97A29;
-      margin-top: 100px; /* 将标题稍微向下移动 */
-      font-family: "KaiTi", "楷体", "Microsoft YaHei", "微软雅黑", "Heiti SC", "黑体", "Arial", sans-serif;
+      font-size: 1rem; /* 在手机上减小标题字体 */
+      text-align: center; /* 标题居中 */
+      margin-top: 0.5rem; /* 减小标题上方的间距 */
     }
   }
+}
 
-  .login-content {
-  display: flex;
-  flex-direction: row;
-  background-color: #2C1A2F; /* 设置背景颜色 */
-  border-radius: 8px;
-  box-shadow: var(--el-box-shadow-light);
-  width: 70vw; /* 放大 content 的宽度 */
-  max-width: 3000px;
-  min-height: 650px; /* 增加 content 的高度 */
-  margin-top: 50px; /* 确保 content 与 header 保持足够距离 */
-  overflow: hidden;
-
-  .login-img {
-    flex: 4; /* 设置为 4:3 比例 */
+.login-content {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    background: linear-gradient(60deg, #165dff, #6aa1ff);
-  }
+    flex-direction: row;
+    background-color: #2C1A2F;
+    border-radius: 8px;
+    box-shadow: var(--el-box-shadow-light);
+    width: 70vw;
+    max-width: 100%;  /* 设置最大宽度为 100% */
+    min-height: 550px;
+    margin-top: 7%;
+    overflow: hidden;
+    padding: 20px;  /* 添加一些内边距避免边缘过于紧凑 */
 
-  .login-form {
-    flex: 3; /* 设置为 4:3 比例 */
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start; /* 标题向上对齐 */
-    padding: 40px;
-
-    .form-title {
-      position: relative; /* 添加相对定位 */
-      margin-bottom: 30px;
-      text-align: center;
-      color: #E97A29;
-
-      h2 {
-        font-size: 32px;
-        font-weight: bold;
-      }
-    }
-
-    .el-dropdown {
-      position: absolute;
-      right: 0;
-      top: 50%; /* 调整垂直居中 */
-      transform: translateY(-50%);
-    }
-
-    .input-wrapper {
+    /* PC端 */
+    .login-img {
+      flex: 4;  /* 让图片部分占据一定宽度 */
       display: flex;
       align-items: center;
-      position: relative; /* 添加相对定位以便子元素的定位 */
-      width: 100%;
-      margin-bottom: 20px; /* 增大输入框之间的间距 */
+      justify-content: center;
+      background: linear-gradient(60deg, #165dff, #6aa1ff);
+      min-height: 250px;  /* 为手机端设置最小高度 */
+      max-width: 100%;  /* 保证图片不会超过宽度 */
+    }
 
-      .el-icon {
-        color: #e97a29; /* 图标颜色 */
-        font-size: 24px; /* 图标大小 */
-        margin-right: 10px;
-      }
+    .login-form {
+      flex: 3;  /* 让表单部分占据剩余空间 */
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      padding: 20px;  /* 更改 padding 以适应手机端 */
+      max-width: 100%;  /* 保证表单宽度不会超过可视区 */
+      background-color: rgba(75, 48, 48, 0.5);  /* 提高表单背景的透明度 */
 
-      .el-input {
-        flex: 1;
-        font-size: 18px; /* 字体大小 */
-        height: 70px; /* 增加输入框高度 */
-        padding: 0 0px; /* 左右内边距 */
-        background-color: #ffffff; /* 输入框背景改为白色 */
-        color: #000000; /* 输入框文字改为黑色 */
-        border: 1px solid #ffffff; /* 边框颜色改为白色 */
-        border-radius: 6px;
-        line-height: 1.5; /* 调整行高使内容居中 */
+      .form-title {
+        position: relative;
+        margin-bottom: 20px;
+        text-align: center;
+        color: #E97A29;
 
-        &::placeholder {
-          color: #888888; /* placeholder 字体颜色为浅灰色 */
-        }
-
-        &:focus {
-          border-color: #e97a29; /* 聚焦时边框颜色改为主题色 */
-          outline: none;
+        h2 {
+          font-size: 24px;  /* 减小标题字体大小 */
+          font-weight: bold;
         }
       }
-      .el-form-item.is-error .el-input {
-          border-color: #ff4d4f; /* 错误时边框变红 */
+
+      .el-dropdown {
+        position: absolute;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+      }
+
+      .input-wrapper {
+        display: flex;
+        align-items: center;
+        position: relative;
+        width: 100%;
+        margin-bottom: 15px;  /* 减小输入框间距 */
+
+        .el-icon {
+          color: #e97a29;
+          font-size: 20px;  /* 减小图标大小 */
+          margin-right: 10px;
         }
-        .el-form-item.is-error .el-input__inner {
-          border-color: #ff4d4f; /* 错误时输入框内边框变红 */
+
+        .el-input {
+          flex: 1;
+          font-size: 16px;  /* 减小字体大小 */
+          height: 50px;  /* 更适合手机端的输入框高度 */
+          padding: 0 10px;  /* 增加左右内边距 */
+          background-color: #ffffff;
+          color: #000000;
+          border: 1px solid #ffffff;
+          border-radius: 6px;
+          line-height: 1.5;
+
+          &::placeholder {
+            color: #888888;
+          }
+
+          &:focus {
+            border-color: #e97a29;
+            outline: none;
+          }
         }
-      .captcha-img {
+
+        .captcha-img {
           position: absolute;
-          right: 10px; /* 验证码图片与输入框右侧留空 */
-          top: 50%; /* 垂直居中 */
-          transform: translateY(-50%); /* 精确居中 */
-          width: 120px;
-          height: 50px;
+          right: 10px;
+          top: 50%;
+          transform: translateY(-50%);
+          width: 100px;
+          height: 40px;  /* 调整验证码图片大小 */
           cursor: pointer;
         }
-
       }
+
       .flex-x-between {
         display: flex;
-        justify-content: space-between; /* 分别居左和居右 */
+        justify-content: space-between;
         align-items: center;
-        margin-top: 15px; /* 增加与按钮的间距 */
+        margin-top: 15px;
         margin-bottom: 30px;
 
         el-link {
@@ -452,36 +472,121 @@ export default {
 
       .login_button {
         padding: 15px;
-        font-size: 20px; /* 增大按钮大小 */
+        font-size: 18px;  /* 减小按钮字体大小 */
         font-weight: bold;
         color: #000;
         background-color: #E97A29;
         border: none;
         border-radius: 6px;
         cursor: pointer;
-        width: 100%;
-
+        width: 100%;  /* 确保按钮宽度适应所有屏幕 */
+        
         &:hover {
           background-color: #ff8c3d;
         }
       }
-
     }
+  }
+
+
+/* 为手机端调整 layout */
+@media screen and (max-width: 768px) {
+  .login-content {
+    flex-direction: column !important;  /* 手机端调整为垂直布局 */
+    padding: 15px !important;  /* 调整内边距 */
+    margin-top: 15% !important;  /* 将 content 部分下移，确保图片在 form 上方 */
+    border: none !important;  /* 取消边框 */
+    background-color: transparent !important;  /* 背景透明 */
+    box-shadow: none !important;  /* 取消阴影 */
+    width: 85% !important;  /* 增加宽度，适应更多屏幕 */
+    max-width: 450px !important;  /* 设置更大的最大宽度 */
+  }
+
+  .login-img {
+    display: none !important;
+  }
+
+  .login-form {
+    padding: 15px !important;  /* 减少表单内边距 */
+    width: 90% !important;  /* 设置表单宽度为视口的 90% */
+    max-width: 450px !important;  /* 设置表单的最大宽度 */
+    height: auto !important;  /* 自适应高度 */
+    background-color: rgba(75, 48, 48, 0.5) !important;  /* 增加表单背景透明度 */
+    margin: 0 auto !important;  /* 使表单居中 */
+    border-radius: 6px !important;  /* 保持圆角 */
+  }
+
+  .form-title h2 {
+    font-size: 20px !important;  /* 调整标题字体大小 */
+    margin-bottom: 40px !important; 
+  }
+
+  .input-wrapper {
+    margin-bottom: 18px !important;  /* 减小输入框之间的间距 */
+
+    .el-icon {
+      font-size: 18px !important;  /* 调整图标大小 */
+      margin-right: 8px !important;  /* 调整图标与输入框的间距 */
+    }
+
+    .el-input {
+      font-size: 16px !important;  /* 调整输入框字体大小 */
+      height: 45px !important;  /* 调整输入框高度 */
+      padding: 0 10px !important;  /* 调整左右内边距 */
+      background-color: #efeded !important;
+      border: 1px solid #982e2e !important;
+      border-radius: 4px !important;  /* 调整圆角 */
+      line-height: 1.5 !important;
+
+      &::placeholder {
+        color: #888888 !important;
+      }
+
+      &:focus {
+        border-color: #e97a29 !important;
+        outline: none !important;
+      }
+    }
+  }
+
+  .login_button {
+    padding: 20px !important;  /* 减少按钮内边距 */
+    font-size: 20px !important;  /* 调整按钮字体大小 */
+    font-weight: bold !important;
+    color: #000 !important;
+    background-color: #E97A29 !important;
+    border: none !important;
+    border-radius: 6px !important;
+    cursor: pointer !important;
+    width: 100% !important;  /* 确保按钮宽度适应所有屏幕 */
+    font-family: "Microsoft YaHei", "微软雅黑", "Heiti SC", "黑体", "Arial", sans-serif;
+    
+    &:hover {
+      background-color: #ff8c3d !important;
+    }
+  }
 }
+
+
 }
+
+
 </style>
 
 <style lang="scss" scoped>
   ::v-deep .el-form-item__error {
     color: #ff4d4f;
-    font-size: 16px;
+    font-size: 12px;
     position: absolute;
-    bottom: 20px; /* 距离输入框底部的距离 */
+    bottom: 2px; /* 距离输入框底部的距离 */
     left: 30px; /* 向右移动的距离 */
     width: calc(100% - 30px); /* 根据右移调整宽度 */
     text-align: left;
-    margin-top: -18px;
+    margin-top: -10px;
   }
+
+
+
 </style>
 
 

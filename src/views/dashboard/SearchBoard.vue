@@ -263,7 +263,7 @@
                 @click="setid(product.id)"
               >
                 <div class="image-placeholder">
-                  <img :src="product.image" :alt="product.name" />
+                  <img :src="product.image" />
                 </div>
                 <p class="product-name">{{ product.name }}</p>
                 <p class="product-price">{{ product.price }}</p>
@@ -457,51 +457,54 @@ export default {
 
   .login-header {
     position: absolute;
-    top: 20px;
-    left: 20px;
+    top: 2%; /* 改为相对视口高度，确保在不同屏幕上有良好的间距 */
+    left: 2%; /* 改为相对视口宽度，确保与屏幕边缘有一定间距 */
     display: flex;
-    flex-direction: row; /* 修改为横向排列 */
-    align-items: center;
-    gap: 200px; /* logo和搜索栏之间的间距 */
-  }
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 1rem; /* 使用 rem 单位，确保布局的相对性 */
+    width: 100vw;
+    height: 10vh;
+
 
     .logo {
-      width: 200px;
+      width: 8%; /* 使用 vw 单位，根据视口宽度调整 logo 的大小 */
+      height: auto;
     }
 
     .title {
-      font-size: 35px;
+      font-size: 1.5rem; /* 使用 rem 单位，使字体大小与根字体大小挂钩 */
       font-weight: bold;
-      color: #e97a29;
-      margin-top: 20px;
+      color: #E97A29;
+      margin-top: 2rem; /* 使用 rem 单位，确保标题与上方的间距适中 */
       font-family: "KaiTi", "楷体", "Microsoft YaHei", "微软雅黑", "Heiti SC", "黑体", "Arial", sans-serif;
     }
-
     .search-bar {
-      margin-top: -70px;
+      margin-top: -3rem;
       display: flex;
-      gap: 0px; /* 增加输入框和按钮之间的间距 */
-      margin-left: 800px; 
+      gap: 1rem; /* 增加输入框和按钮之间的间距 */
+      margin-left: 35vw; /* 调整居左的距离 */
+      width: 60%; /* 增加搜索栏的宽度，使用 vw 单位，适应屏幕宽度 */
+      height: 20%;
 
       input {
-        padding: 15px; /* 增加内边距，使输入框更大 */
-        font-size: 18px; /* 增加字体大小 */
-        width: 300px; /* 增加输入框的宽度 */
+        padding: 10px 15px; /* 减少上下内边距，使输入框更扁长 */
+        font-size: 16px; /* 减小字体大小，使其适应扁长布局 */
+        width: 50%; /* 增加输入框的宽度，使其占满容器的主要部分 */
         border: 2px solid #e97a29;
         border-radius: 5px;
-        width: 600px;
       }
 
       button {
-        padding: 15px 30px; /* 增加内边距，使按钮更大 */
-        font-size: 25px; /* 增加按钮的字体大小 */
+        padding: 10px 25px; /* 减少按钮的上下内边距，使其更扁长 */
+        font-size: 20px; /* 调整按钮的字体大小 */
         background-color: #e97a29;
         color: rgb(115, 32, 204);
         border: none;
         border-radius: 5px;
         cursor: pointer;
         font-family: "KaiTi", "楷体", "Microsoft YaHei", "微软雅黑", "Heiti SC", "黑体", "Arial", sans-serif;
-        font-weight: bold; /* 加粗字体 */
+        font-weight: bold;
       }
 
       button:hover {
@@ -509,9 +512,9 @@ export default {
       }
     }
     .log-out{
-      margin-top: -70px;
       display: flex;
-      margin-left: 1800px; 
+      margin-left: 85vw; 
+      margin-top: -3rem;
       gap: 0px;
       button {
         padding: 15px 30px; /* 增加内边距，使按钮更大 */
@@ -530,33 +533,96 @@ export default {
       }
     }
 
-  
+  }
+  @media (max-width: 768px) {
+  .login-header {
+    top: 7%; /* 缩小顶部间距，使其适配小屏幕 */
+    left: 5%; /* 缩小左边距 */
+    align-items: center; /* 在手机上居中显示内容 */
+
+    .logo {
+      width: 20vw; /* 根据手机屏幕宽度调整 logo 大小 */
+    }
+
+    .title {
+      font-size: 1.2rem !important; /* 在手机上减小标题字体 */
+      text-align: center; /* 标题居中 */
+      margin-top: 0.5rem; /* 减小标题上方的间距 */
+    }
+  }
+
+  .search-bar {
+    margin-top: 2rem !important; /* 增加一些间距，避免与其他元素过于紧凑 */
+    margin-left: 5vw !important;
+
+    align-items: center; /* 让输入框和按钮居中 */
+    width: 100vw !important;
+    height: 3vh !important; 
+
+    input {
+      padding: 10px 15px; /* 增加内边距，提升触摸体验 */
+      font-size: 14px; /* 调整字体大小，适应手机端 */
+      width: 50% !important; /* 输入框占据大部分宽度 */
+      height: 80% !important; /* 输入框高度占满容器的全部高度 */
+      border: 2px solid #e97a29;
+      border-radius: 5px;
+      margin-right: 0.1rem !important; /* 增加输入框与按钮之间的间距 */
+    }
+
+    button {
+      padding: 2px 4px !important; /* 增加内边距，适应手机端按键大小 */
+      font-size: 16px !important; /* 调整按钮字体大小，确保适配手机端 */
+      width: 20% !important; /* 按钮宽度占据容器的 15% */
+      height: 100% !important; /* 按钮高度占满容器的全部高度 */
+      background-color: #e97a29;
+      color: rgb(115, 32, 204);
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-family: "KaiTi", "楷体", "Microsoft YaHei", "微软雅黑", "Heiti SC", "黑体", "Arial", sans-serif;
+      font-weight: bold;
+    }
+
+    button:hover {
+      background-color: #d66a1f;
+    }
+  }
+
+  .log-out {
+    display: none !important;
+  }
+}
+
+
+
+
+
 
   /* 内容部分 */
 .content {
-  margin-top: 200px;
+  margin-top: 12%;
   padding: 20px;
-  width: 100%; /* 确保内容宽度为页面宽度 */
+  width: 100vw; /* 确保内容宽度为页面宽度 */
   box-sizing: border-box; /* 包括内边距 */
 }
 
 .hd {
   display: flex;
   align-items: center;
-  gap: 20px; /* 增大文字和 ">" 符号的距离 */
+  gap: 12px; /* 增大文字和 ">" 符号的距离 */
   background-color: rgb(61, 24, 31); /* 背景颜色 */
   color: rgb(235, 218, 218); /* 字体颜色 */
   padding: 20px; /* 增大内边距 */
   border-radius: 8px; /* 更明显的圆角效果 */
-  width: 350px; /* 增加标签宽度 */
-  font-size: 25px; /* 增大文字大小 */
+  width: 18%; /* 增加标签宽度 */
+  font-size: 20px; /* 增大文字大小 */
   font-family: "KaiTi", "楷体", "Microsoft YaHei", "微软雅黑", "Heiti SC", "黑体", "Arial", sans-serif;
   margin-left: 1%;
   position: relative; /* 为子标签的定位提供基础 */
 }
 
 .mmb-iconfont.arr {
-  font-size: 22px; /* 增大箭头图标的大小 */
+  font-size: 18px; /* 增大箭头图标的大小 */
   cursor: pointer;
   transition: transform 0.3s ease;
   color: white; /* 保持箭头图标的字体颜色为白色 */
@@ -574,10 +640,10 @@ export default {
   background-color: rgb(61, 24, 31);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   z-index: 10;
-  width: 500px; /* 子标签宽度 */
+  width: 30vw; /* 子标签宽度 */
   font-family: "KaiTi", "楷体", "Microsoft YaHei", "微软雅黑", "Heiti SC", "黑体", "Arial", sans-serif;
   border-radius: 8px;
-  font-size: 22px;
+  font-size: 18px;
 }
 
 .bd a {
@@ -615,15 +681,15 @@ export default {
 
 /* 商品展示主样式 */
 .product-display {
-  background-color: rgb(215, 111, 111);
-  margin-left: 28%;
-  margin-right: 12%;
+  background-color: rgb(132, 55, 55);
+  margin-left: 30%;
+  margin-right: 10%;
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   transform: scale(1.1); /* 放大 */
   transition: transform 0.3s ease; /* 平滑动画 */
-  margin-top: -700px;
+  margin-top: -45%;
 }
 
 /* 推荐区域 */
@@ -633,34 +699,11 @@ export default {
 }
 
 .recommand h3 {
-  font-size: 50px;
-  margin-bottom: 80px;
-  color: #ec0606;
-  font-family: "Microsoft YaHei", "微软雅黑", "Heiti SC", "黑体", "Arial", sans-serif;
-  font-weight: bold; /* 加粗字体 */
-}
-
-
-.order{
-  background-color: rgb(215, 111, 111);
-  margin-left: 5%;
-  margin-right: 5%;
-  padding: 30px;
-  transition: transform 0.3s ease; /* 平滑动画 */
-  margin-top: 100px;
-}
-.display{
-  text-align: left;
-  padding-bottom: 85px;
-}
-.display h4{
   font-size: 45px;
-  margin-bottom: 20px;
-  color: #ec0606;
+  margin-bottom: 80px;
+  color: #d7c6c6;
   font-family: "Microsoft YaHei", "微软雅黑", "Heiti SC", "黑体", "Arial", sans-serif;
   font-weight: bold; /* 加粗字体 */
-  position: relative;
-  top: -30px;
 }
 
 /* 商品列表样式 */
@@ -673,13 +716,13 @@ export default {
 
 /* 单个商品卡片 */
 .product-card {
-  background-color: #f9f9f9;
+  background-color: #b35a5a;
   border: 1px solid #c61313;
   border-radius: 5px;
   width: calc(25% - 10px); /* 调整为4列布局 */
   text-align: center;
   padding: 10px;
-  height: 400px;
+  height: 45vh;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
@@ -692,7 +735,7 @@ export default {
 /* 图片占位符 */
 .image-placeholder {
   width: 100%;
-  height: 230px;
+  height: 50%;
   background-color: #e0e0e0;
   border-radius: 5px;
   margin-bottom: 40px;
@@ -709,18 +752,23 @@ export default {
 /* 商品名样式 */
 .product-name {
   font-size: 15px;
-  color: #555;
-  margin-bottom: 50px;
-  overflow: hidden; /* 超出部分隐藏 */
+  color: #140202;
+  margin-bottom: 10px; /* 调整底部间距，避免价格和标题重叠 */
+  
+  display: -webkit-box; /* 使得元素成为多行布局 */
+  -webkit-box-orient: vertical; /* 定义盒子的方向为纵向 */
+  -webkit-line-clamp: 2; /* 限制最多显示两行 */
+  overflow: hidden; /* 隐藏溢出的内容 */
   text-overflow: ellipsis; /* 使用省略号替代溢出部分 */
+  font-family: "KaiTi", "楷体", "Microsoft YaHei", "微软雅黑", "Heiti SC", "黑体", "Arial", sans-serif;
 }
 
 /* 商品价格样式 */
 .product-price {
-  font-size: 18px;
+  font-size: 23px;
   color: #e60012; /* 红色价格 */
   font-weight: bold;
-  margin-bottom: 35px;
+  margin-bottom: 30px;
 }
 
 /* 按钮基础样式 */
@@ -782,6 +830,111 @@ export default {
   opacity: 1;
 }
 
+@media (max-width: 768px) {
+  .content {
+    margin-top: 40vh;
+    flex-direction: column; /* 修改为上下排列 */
+    align-items: center; /* 居中对齐 */
+    margin-left: 1vw !important;
+  }
+
+  .menu-item {
+    display: none !important;
+  }
+
+  .product-display {
+    margin-left: 5%;
+    margin-right: 5%;
+    padding: 10px;
+    transform: scale(1);
+  }
+
+  .recommand h3 {
+    font-size: 20px;
+    margin-bottom: 4% !important;
+  }
+
+  .product-list {
+  display: flex;
+  flex-wrap: wrap; /* 允许换行 */
+  margin-top: 10% !important;
+  gap: 0px !important; /* 调整间距，减少每个商品之间的空隙 */
+}
+
+.product-card {
+  width: calc(50% - 30px); /* 每行显示2个商品卡片，减小间隔空间 */
+  height: auto; /* 高度自动调整 */
+  margin-bottom: 20px; /* 为每个商品卡片添加间距 */
+  max-height: 250px; /* 限制每个商品卡片的最大高度 */
+}
+
+
+  /* 图片占位符 */
+  .image-placeholder {
+    width: 100%;
+    height: 60%;
+    background-color: #e0e0e0;
+    border-radius: 5px;
+    margin-bottom: 20px; /* 调整为更小的间距 */
+  }
+
+  /* 图片样式 */
+  .image-placeholder img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* 确保图片填充且不变形 */
+    border-radius: 5px;
+  }
+  .product-price{
+    font-size: 20px !important;
+  }
+
+  .carousel-btn {
+    position: absolute;
+    margin-top: 10%;
+    bottom: 10px;
+    z-index: 10;
+    font-size: 12px !important;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    cursor: pointer;
+  }
+
+  .left-btn {
+    left: 5px !important;
+  }
+
+  .right-btn {
+    right: 5px !important;
+  }
+}
+
+.carousel-container:hover .carousel-btn {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.flip-enter-active, .flip-leave-active {
+  transition: transform 0.5s ease, opacity 0.5s ease;
+  transform-style: preserve-3d;
+}
+
+.flip-enter-from {
+  transform: rotateY(180deg);
+  opacity: 0;
+}
+
+.flip-leave-to {
+  transform: rotateY(-180deg);
+  opacity: 0;
+}
+
+.flip-enter-to, .flip-leave-from {
+  transform: rotateY(0);
+  opacity: 1;
+}
 
   
 }

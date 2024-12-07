@@ -17,7 +17,6 @@ const SEARCHAPI = {
     async logout() { // 添加 async 修饰
         try {
             const response = await axiosInstance.delete('/api/login/out'); 
-            console.log('Logout successful:', response.data);
             return response.data; 
         } catch (error) {
             console.error('Logout failed:', error.response?.data || error.message);
