@@ -7,7 +7,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from pyquery import PyQuery as pq
 import time
 import pymysql
-from datetime import datetime
+from datetime import datetime, timedelta
 from fake_useragent import UserAgent
 import requests                   
 
@@ -223,19 +223,24 @@ def get_goods(page, KEYWORD):
                 WHERE id = %s
             """, (price, img_url, crawl_date, existing_id))
 
-            notification_data = {
-            "thing_id": existing_id,
-            "message": "Card data updated"
-            }
-            response = requests.post(spring_boot_url, json=notification_data)
-            print(f"Notified Spring Boot: {response.status_code}")
             
         else:  # 记录不存在，直接插入新记录
             cursor.execute(insert_query, (
                 title, price, shop, img_url, source, child_type, thing_url, crawl_date
             ))
-
+            
+        response = requests.post(spring_boot_url)
         connection.commit()
+    current_date = datetime.now()
+    two_days_ago = current_date - timedelta(days=2)
+
+    # 执行删除操作：删除crawl_date与当前日期相差两天及以上的记录
+    delete_query = """
+    DELETE FROM card 
+    WHERE crawl_date <= %s;
+    """
+
+    cursor.execute(delete_query, (two_days_ago,))
 
 
  

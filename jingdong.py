@@ -7,7 +7,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from pyquery import PyQuery as pq
 import time
 import pymysql
-from datetime import datetime
+from datetime import datetime, timedelta
 from fake_useragent import UserAgent
 import requests                   
 
@@ -64,7 +64,7 @@ driver.maximize_window()
 wait = WebDriverWait(driver,20)
 # 打开页面后会强制停止10秒，请在此时手动扫码登陆
 # Spring Boot 后端的 URL，假设接口为 /notifyUpdate
-spring_boot_url = "http://localhost:8082/api/python_remind"
+spring_boot_url = "http://localhost:8082/api/subscribe/remind"
 
 
 def scroll_page():
@@ -218,20 +218,23 @@ def get_goods(page, KEYWORD):
                 WHERE id = %s
             """, (price, img_url, crawl_date, existing_id))
 
-            notification_data = {
-            "thing_id": existing_id,
-            "message": "Card data updated"
-            }
-            response = requests.post(spring_boot_url, json=notification_data)
-            print(f"Notified Spring Boot: {response.status_code}")
 
         else:  # 记录不存在，直接插入新记录
             cursor.execute(insert_query, (
                 title, price, shop, img_url, source, child_type, thing_url, crawl_date
             ))
-        
-        connection.commit()
 
+        connection.commit()
+    current_date = datetime.now()
+    two_days_ago = current_date - timedelta(days=2)
+
+    # 执行删除操作：删除crawl_date与当前日期相差两天及以上的记录
+    delete_query = """
+    DELETE FROM card 
+    WHERE crawl_date <= %s;
+    """
+
+    cursor.execute(delete_query, (two_days_ago,))
 
 
  
@@ -281,6 +284,9 @@ if __name__ == '__main__':
             driver.maximize_window()
             time.sleep(random.uniform(15, 25))  #模拟人类行为，休息一下
        
+                    
+        response = requests.get(spring_boot_url)
+
     except Exception as e:
         print("数据库连接失败：", e)
         exit()
