@@ -2,9 +2,6 @@ package com.bishaoshao.controller;
 
 import com.bishaoshao.utils.result.Result;
 
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -23,21 +20,21 @@ public class SearchController {
     @Autowired
     private SearchService searchService;
     
-    @Operation(summary = "搜索关键词")
+
     @PostMapping("/lookfor")
     public Result<?> search(@RequestBody Map<String, String> params) {
         String keyword = params.get("keyword");  // 从请求体中获取 keyword 参数
         return searchService.search(keyword);
     }
 
-    @Operation(summary = "访问商品详情")
+
     @PostMapping("/lookin")
     public Result<?> getinfo(@RequestBody Map<String, String> params){
         long id = Long.parseLong(params.get("id"));
         return searchService.getDetailsById(id);
     }
 
-    @Operation(summary = "查询历史价格")
+
     @PostMapping("/lookback")
     public Result<?> gethistory(@RequestBody Map<String, String> params){
         long id = Long.parseLong(params.get("id"));

@@ -5,7 +5,7 @@ import org.apache.ibatis.annotations.Select;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.bishaoshao.entity.Card;
-import com.bishaoshao.model.HistoryPrcie;
+import com.bishaoshao.model.HistoryPrice;
 
 import org.apache.ibatis.annotations.Param;
 import java.util.List;

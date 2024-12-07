@@ -117,9 +117,9 @@ public class SearchService {
     }
 
     public Result<?> getHistoryById(Long id){
-        List<HistoryPrcie> historyPrcies=historyMapper.lookback(id);
+        List<HistoryPrice> historyPrcies=historyMapper.lookback(id);
         Card card=listMapper.selectById(id);
-        HistoryPrcie now= new HistoryPrcie();
+        HistoryPrice now= new HistoryPrice();
         now.setDate(card.getCrawlDate());
         now.setPrice(card.getPrice());
         historyPrcies.add(now);

@@ -65,6 +65,8 @@ public class UserLoginController {
         String username = req.getUsername();
         String password = req.getPassword();
 
+        System.out.println(password);
+
         //若为邮箱登录则替换为用户名
         Pattern pattern = Pattern.compile(EMAIL_PATTERN);
         Matcher matcher = pattern.matcher(username);

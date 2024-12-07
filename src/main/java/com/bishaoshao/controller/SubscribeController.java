@@ -6,16 +6,7 @@ import com.bishaoshao.security.service.CurrentInfoService;
 import com.bishaoshao.security.service.OnlineUserService;
 import com.bishaoshao.service.SubscribeService;
 import com.bishaoshao.utils.result.Result;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.servlet.http.HttpServletRequest;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 import java.util.Map;
 
@@ -43,7 +34,7 @@ public class SubscribeController {
     private CurrentInfoService currentInfoService; 
 
 
-    @Operation(summary = "订阅商品")
+
     @PostMapping("/add")
     public Result<?> add(@RequestBody Map<String, String> params) {
                 
@@ -54,7 +45,7 @@ public class SubscribeController {
     }
 
     
-    @Operation(summary = "取消订阅商品")
+
     @PostMapping("/sub")
     public Result<?> sub(@RequestBody Map<String, String> params) {
 
@@ -63,20 +54,19 @@ public class SubscribeController {
         return subscribeService.sub(user_id,thing_id);
     }
 
-    @Operation(summary = "推送降价商品")
+
     @GetMapping("/all")
     public Result<?> getall(){
         return subscribeService.recmall();
     }
     
-    @Operation(summary = "推送关注商品")
+
     @GetMapping("/like")
     public Result<?> getlike(){
         Long user_id=currentInfoService.getCurrentUserId().getData();
         return subscribeService.recmlike(user_id);
     }
 
-    @Operation(summary = "商品是否订阅")
     @PostMapping("/issub")
     public Result<?> getissub(@RequestBody Map<String, String> params){
         Long user_id=currentInfoService.getCurrentUserId().getData();
@@ -84,7 +74,6 @@ public class SubscribeController {
         return subscribeService.sure(user_id,thing_id);
     }
 
-    @Operation(summary = "商品是否订阅")
     @GetMapping("/remind")
     public Result<?> remind(){
         return subscribeService.remind();
